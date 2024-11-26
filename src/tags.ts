@@ -202,6 +202,29 @@ export const tags = {
         name: "Prolog",
         description: "Prolog is a logic programming language associated with artificial intelligence and computational linguistics, focusing on pattern matching and rule-based logical queries.",
       },
+      {
+        slug: 'common_lisp',
+        name: 'CommonLisp',
+        description:
+          'Common Lisp (CL) is a dialect of the Lisp programming language, published in American National Standards Institute (ANSI).',
+      },
+      {
+        slug: 'emacs_lisp',
+        name: 'EmacsLisp',
+        description:
+          'Emacs Lisp is a dialect of the Lisp programming language designed specifically for the Emacs text editor.',
+      },
+      {
+        slug: 'racket_lisp',
+        name: 'Racket',
+        description: 'The Racket language is a modern dialect of Lisp and a descendant of Scheme.',
+      },
+      {
+        slug: 'scheme_lisp',
+        name: 'Scheme',
+        description:
+          'Scheme is a dialect of the Lisp family of programming languages. Scheme was created during the 1970s at the MIT Computer Science and Artificial Intelligence Laboratory (MIT CSAIL).',
+      },
     ],
   },
   occupations: {

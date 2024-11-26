@@ -166,7 +166,42 @@ export const tags = {
         slug: "mobile",
         name: "Mobile Developer",
         description: "Mobile Development involves creating applications for mobile devices such as smartphones and tablets.",
-      }
+      },
+      {
+        slug: "infosec",
+        name: "Information Security",
+        description: "Information Security professionals protect systems, networks, and data from digital threats, ensuring confidentiality, integrity, and availability.",
+      },
+      {
+        slug: "qa-engineer",
+        name: "QA Engineer",
+        description: "Quality Assurance Engineers design and implement tests to ensure the quality and functionality of software applications.",
+      },
+      {
+        slug: "data-scientist",
+        name: "Data Scientist",
+        description: "Data Scientists analyze and interpret complex data to help organizations make informed decisions and solve challenging problems.",
+      },
+      {
+        slug: "ai-ml-engineer",
+        name: "AI/ML Engineer",
+        description: "AI/ML Engineers develop and deploy machine learning models and artificial intelligence systems to automate tasks and derive insights from data.",
+      },
+      {
+        slug: "cloud-engineer",
+        name: "Cloud Engineer",
+        description: "Cloud Engineers design, implement, and manage cloud-based infrastructure and services to ensure scalability and reliability.",
+      },
+      {
+        slug: "technical-writer",
+        name: "Technical Writer",
+        description: "Technical Writers create clear and concise documentation, manuals, and guides to help users understand and utilize software and hardware products.",
+      },
+      {
+        slug: "sre",
+        name: "Site Reliability Engineer",
+        description: "Site Reliability Engineers apply software engineering principles to ensure the reliability, scalability, and efficiency of production systems, focusing on automation, monitoring, and performance optimization.",
+      },
     ]
   },
   clearAll: {

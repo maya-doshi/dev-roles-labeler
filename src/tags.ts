@@ -106,7 +106,102 @@ export const tags = {
         slug: "elixir",
         name: "Elixir",
         description: "Elixir is a functional, concurrent programming language built on the Erlang VM, known for its scalability and fault-tolerance.",
-      }
+      },
+      {
+        slug: "ocaml",
+        name: "OCaml",
+        description: "An industrial-strength functional programming language with an emphasis on expressiveness and safety"
+      },
+      {
+        slug: "gleam",
+        name: "Gleam",
+        description: "Gleam is a friendly language for building type-safe systems that scale!"
+      },
+      {
+        slug: "elm",
+        name: "Elm",
+        description: "A delightful language for reliable web applications."
+      },
+      {
+        slug: "cobol",
+        name: "COBOL",
+        description: "COBOL is still widely used in applications deployed on mainframe computers, such as large-scale batch and transaction processing jobs."
+      },
+      {
+        slug: "clojure",
+        name: "Clojure",
+        description: "Clojure is a dialect of Lisp, and shares with Lisp the code-as-data philosophy and a powerful macro system."
+      },
+      {
+        slug: "html-css",
+        name: "HTML/CSS",
+        description: "HTML and CSS are essential technologies for building and designing the structure and appearance of websites."
+      },
+      {
+        slug: "lua",
+        name: "Lua",
+        description: "Lua is a powerful, efficient, lightweight, embeddable scripting language."
+      },
+      {
+        slug: "lean4",
+        name: "Lean4",
+        description: "Programming Language and Theorem Prover"
+      },
+      {
+        slug: "julia",
+        name: "Julia",
+        description: "Julia is a language that is fast, dynamic, easy to use, and open source"
+      },
+      {
+        slug: "zig",
+        name: "Zig",
+        description: "Zig is a general-purpose programming language and toolchain for maintaining robust, optimal and reusable software."
+      },
+      {
+        slug: "erlang",
+        name: "Erlang",
+        description: "Erlang is a programming language used to build massively scalable soft real-time systems with requirements on high availability"
+      },
+      {
+        slug: "fsharp",
+        name: "F#",
+        description: "F# gives you simplicity and succinctness like Python with correctness, robustness and performance beyond C# or Java."
+      },
+      {
+        slug: "nim",
+        name: "Nim",
+        description: "Nim is a statically typed compiled systems programming language. It combines successful concepts from mature languages like Python, Ada and Modula."
+      },
+      {
+        slug: "crystal",
+        name: "Crystal",
+        description: "Crystal is statically typed and type errors are caught early by the compiler, eliminating a range of type-related errors at runtime."
+      },
+      {
+        slug: "matlab",
+        name: "MATLAB",
+        description: "MATLAB is a high-performance language primarily used for numerical computing, data analysis, and algorithm development in engineering and scientific applications.",
+      },
+      {
+        slug: "fortran",
+        name: "Fortran",
+        description: "Fortran is a powerful language used extensively in scientific and engineering computations, known for its performance in numerical and array-based calculations.",
+      },
+      {
+        slug: "visual_basic",
+        name: "Visual Basic",
+        description: "Visual Basic is an event-driven programming language developed by Microsoft, often used for developing Windows applications and automating tasks within the Microsoft Office suite.",
+      },
+      {
+        slug: "groovy",
+        name: "Groovy",
+        description: "Groovy is a dynamic language for the Java platform that offers a concise syntax and seamless integration with Java, commonly used for scripting, automation, and building domain-specific languages.",
+      },
+      {
+        slug: "prolog",
+        name: "Prolog",
+        description: "Prolog is a logic programming language associated with artificial intelligence and computational linguistics, focusing on pattern matching and rule-based logical queries.",
+      },
     ],
   },
   occupations: {

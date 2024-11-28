@@ -3,30 +3,33 @@ import { AtpAgent } from '@atproto/api';
 import { LabelerServer } from '@skyware/labeler';
 import 'dotenv/config';
 import { LabelerCategory } from '../labelerCategory.js';
+import { LabelType } from '../type.js';
 
 
-interface BskyPost  {
-  cid: string
-  uri: string
-  record: PostView
+interface BskyPost {
+  cid: string;
+  uri: string;
+  record: PostView;
 }
 
 async function findPostByUri(agent: AtpAgent, uri: string): Promise<BskyPost> {
   // @ts-ignore
-  let posts =  await agent.getPosts({
-    uris: [uri]
-  })
-  
+  let posts = await agent.getPosts({
+    uris: [uri],
+  });
+
   let post = posts.data.posts[0] as PostView;
-  
+
   return {
     uri: post.uri,
     cid: post.cid,
-  } as BskyPost
+  } as BskyPost;
 }
 
 async function findPostByText(agent: AtpAgent, query: string) {
   // @ts-ignore
+
+
   let authorFeedResponse = await agent.getAuthorFeed({
     actor: process.env.DID!,
     limit: 100,
@@ -62,28 +65,34 @@ async function getPostCategory(agent: AtpAgent, server: LabelerServer, categoryE
     server.db.prepare('INSERT OR IGNORE INTO labels_definitions (name, slug, description, uri, delete_trigger) VALUES (?, ?, ?, ?, ?);')
       .run(categoryEntry.description, 'clear', categoryEntry.description, newCategory.uri, 1);
   }
-  
+
   return newCategory as BskyPost;
 }
 
 async function createLabel(
   server: LabelerServer,
   agent: AtpAgent,
-  tag: any,
+  tag: LabelType,
   categoryPost: BskyPost,
   parent: BskyPost,
 ) {
 
   let labelText = tag.name + ' ->  ' + tag.description;
 
+  let response = server.db.prepare('SELECT * FROM labels_definitions WHERE slug = ?').get(tag.slug) as LabelType | undefined;
+  if (response) {
+    console.log('[L] Label Found (DB): ' + tag.name);
+    return findPostByUri(agent, response.uri);
+  }
+
   let postLabel = await findPostByText(agent, labelText);
 
   if (postLabel) {
     // @ts-ignore
-    console.log('[L] Label Found: ' + postLabel.post.record.text);
-    return findPostByUri(agent, postLabel.post.uri)
+    console.log('[L] Label Found (Bsky): ' + postLabel.post.record.text);
+    return findPostByUri(agent, postLabel.post.uri);
   }
-  
+
   console.log('[L] New Label: ' + tag.name);
   let post = await agent.post({
     text: tag.name + ' ->  ' + tag.description,

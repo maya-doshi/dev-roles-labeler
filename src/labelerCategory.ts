@@ -1,6 +1,25 @@
-export const tags = {
+export interface Tag  {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export type Labels = {
+  programmingLanguages: LabelerCategory;
+  occupations: LabelerCategory;
+  clearAll: LabelerCategory;
+}
+
+export interface LabelerCategory {
+  description: string;
+  delete_trigger: boolean;
+  values: Tag[];
+}
+
+export const tags: Labels = {
   programmingLanguages: {
     description: "Choose your Programming Language",
+    delete_trigger: false,
     values: [
       {
         slug: "typescript",
@@ -229,6 +248,7 @@ export const tags = {
   },
   occupations: {
     description: "Choose your Occupation",
+    delete_trigger: false,
     values: [
       {
         slug: "backend",
@@ -324,6 +344,7 @@ export const tags = {
   },
   clearAll: {
     description: "Clear your tags liking here",
+    delete_trigger: false,
     values: []
   }
-};
+}

@@ -1,23 +1,19 @@
 import { LabelerServer } from '@skyware/labeler';
 import { AtpAgent, ComAtprotoLabelDefs } from '@atproto/api';
-import { tags } from './tags.js';
+import { tags } from './labelerCategory.js';
 import 'dotenv/config';
 import { setLabelerLabelDefinitions } from '@skyware/labeler/scripts';
-
-
+import { createLabel, getPostCategory } from './utils/setup-utils.js';
 
 const server = new LabelerServer({
   did: process.env.LABELER_DID!,
   signingKey: process.env.SIGNING_KEY!,
 });
 
-const prepareDatabase = async (server: LabelerServer) => {// 
-  server.db.prepare('DROP TABLE IF EXISTS labels_definitions;').run();
+const prepareDatabase = async (server: LabelerServer) => {//
   server.db.prepare(
     'CREATE TABLE IF NOT EXISTS labels_definitions (name TEXT, slug TEXT PRIMARY KEY, description TEXT, uri TEXT, delete_trigger BOOLEAN);',
   ).run();
-
-  
 
   const agent = new AtpAgent({
     service: 'https://bsky.social',
@@ -29,43 +25,18 @@ const prepareDatabase = async (server: LabelerServer) => {//
   };
 
   await agent.login(loginCredentials);
-  
+
   const labelDefinitions: ComAtprotoLabelDefs.LabelValueDefinition[] = [];
 
-  for (const [_id, { description, values }] of Object.entries(tags)) {
-    console.log("category: " + description);
+  for (const [_id, categoryEntry] of Object.entries(tags)) {
 
-    let categoryPost = await agent.post({
-      text: description,
-      createdAt: new Date().toISOString(),
-    });
+    let categoryPost = await getPostCategory(agent, server, categoryEntry);
     
-    
-    if (description == tags.clearAll.description) {
-      server.db.prepare('INSERT INTO labels_definitions (name, slug, description, uri, delete_trigger) VALUES (?, ?, ?, ?, ?);').run(description, 'clear', description, categoryPost.uri, 1);
-      break
-    }
-    
-    let parent = {
-      uri: categoryPost.uri,
-      cid: categoryPost.cid,
-    };
+    let parent = categoryPost;
 
-    for (const tag of values) {
-      let post = await agent.post({
-        text: tag.name + ' -> ' + tag.description,
-        createdAt: new Date().toISOString(),
-        reply: {
-          root: {
-            uri: categoryPost.uri,
-            cid: categoryPost.cid,
-          },
-          parent: parent,
-        },
-      });
-      console.log(" -> tag: " + tag.name);
-
-      server.db.prepare('INSERT INTO labels_definitions (name, slug, description, uri, delete_trigger) VALUES (?, ?, ?, ?, ?);').run(tag.name, tag.slug, tag.description, post.uri, 0);
+    for (const tag of categoryEntry.values) {
+      
+      let post = await createLabel(server, agent, tag, categoryPost, parent);
 
       const labelValueDefinition: ComAtprotoLabelDefs.LabelValueDefinition = {
         identifier: tag.slug,
@@ -84,10 +55,7 @@ const prepareDatabase = async (server: LabelerServer) => {//
 
       labelDefinitions.push(labelValueDefinition);
 
-      parent = {
-        uri: post.uri,
-        cid: post.cid,
-      };
+      parent = post
     }
   }
 

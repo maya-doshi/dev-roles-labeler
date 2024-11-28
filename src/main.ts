@@ -2,7 +2,7 @@ import { LabelerServer } from '@skyware/labeler';
 import { Bot, Post } from '@skyware/bot';
 import 'dotenv/config';
 import { LabelType } from './type.js';
-import {tags} from './tags.js';
+import {tags} from './labelerCategory.js';
 import chalk from 'chalk';
 
 

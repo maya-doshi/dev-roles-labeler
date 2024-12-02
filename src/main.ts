@@ -60,8 +60,8 @@ bot.on('like', async ({ subject, user }) => {
     return;
   }
 
-  let alreadyHasLabel = server.db.prepare('SELECT * FROM labels WHERE src = ? AND uri = ?').run(user.did, label.uri)
-  if (alreadyHasLabel.lastInsertRowid) {
+  let alreadyHasLabel = server.db.prepare('SELECT * FROM labels WHERE src = ? AND uri = ?').all(user.did, label.uri)
+  if (alreadyHasLabel.length) {
     console.log(chalk.yellow('[A] ' + handle + ' already has ' + label.name));
     return;
   }

@@ -244,6 +244,12 @@ export const tags: Labels = {
         description:
           'Scheme is a dialect of the Lisp family of programming languages. Scheme was created during the 1970s at the MIT Computer Science and Artificial Intelligence Laboratory (MIT CSAIL).',
       },
+      {
+        slug: 'powershell',
+        name: 'PowerShell',
+        description:
+          'PowerShell is a cross-platform task automation solution made up of a command-line shell, a scripting language, and a configuration management framework.',
+      },
     ],
   },
   occupations: {

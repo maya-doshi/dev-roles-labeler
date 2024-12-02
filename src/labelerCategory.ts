@@ -1,20 +1,5 @@
-export interface Tag  {
-  slug: string;
-  name: string;
-  description: string;
-}
+import { Labels } from './type.js';
 
-export type Labels = {
-  programmingLanguages: LabelerCategory;
-  occupations: LabelerCategory;
-  clearAll: LabelerCategory;
-}
-
-export interface LabelerCategory {
-  description: string;
-  delete_trigger: boolean;
-  values: Tag[];
-}
 
 export const tags: Labels = {
   programmingLanguages: {

@@ -2,8 +2,7 @@ import { PostView } from '@atproto/api/dist/client/types/app/bsky/feed/defs.js';
 import { AtpAgent } from '@atproto/api';
 import { LabelerServer } from '@skyware/labeler';
 import 'dotenv/config';
-import { LabelerCategory } from '../labelerCategory.js';
-import { LabelType } from '../type.js';
+import { LabelType, LabelEntry, LabelerCategory } from '../type.js';
 
 
 interface BskyPost {
@@ -72,7 +71,7 @@ async function getPostCategory(agent: AtpAgent, server: LabelerServer, categoryE
 async function createLabel(
   server: LabelerServer,
   agent: AtpAgent,
-  tag: LabelType,
+  tag: LabelEntry,
   categoryPost: BskyPost,
   parent: BskyPost,
 ) {

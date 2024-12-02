@@ -34,12 +34,12 @@ const prepareDatabase = async (server: LabelerServer) => {//
     
     let parent = categoryPost;
 
-    for (const tag of categoryEntry.values) {
+    for (const label of categoryEntry.values) {
       
-      let post = await createLabel(server, agent, tag, categoryPost, parent);
+      let post = await createLabel(server, agent, label, categoryPost, parent);
 
       const labelValueDefinition: ComAtprotoLabelDefs.LabelValueDefinition = {
-        identifier: tag.slug,
+        identifier: label.slug,
         severity: 'inform',
         blurs: 'none',
         defaultSetting: 'warn',
@@ -47,8 +47,8 @@ const prepareDatabase = async (server: LabelerServer) => {//
         locales: [
           {
             lang: 'en',
-            name: tag.name,
-            description: tag.description,
+            name: label.name,
+            description: label.description,
           },
         ],
       };

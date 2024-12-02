@@ -2,16 +2,7 @@ import { LabelerServer } from '@skyware/labeler';
 import { Bot, Post } from '@skyware/bot';
 import 'dotenv/config';
 import { LabelType } from './type.js';
-import {tags} from './labelerCategory.js';
 import chalk from 'chalk';
-
-
-const allTags = Object
-  .values(tags)
-  .map((tag) => tag.values.reduce((acc, val: any) => acc.concat(val.slug), []))
-  .reduce((acc, val) => acc.concat(val), [])
-
-console.log("All tags: " + allTags);
 
 const server = new LabelerServer({
   did: process.env.LABELER_DID!,
@@ -35,20 +26,27 @@ await bot.login({
 
 const availableLabels = new Map<string, LabelType>();
 
-server.db.prepare('SELECT * FROM labels_definitions').all().forEach((row: any) => availableLabels.set(row.uri as string, row as LabelType));
+server
+  .db
+  .prepare('SELECT * FROM labels_definitions')
+  .all()
+  .forEach((row: any) => availableLabels
+    .set(row.uri as string, row as LabelType));
+
+const allTags = Array.from(availableLabels.values()).map((label) => label.slug);
 
 
 bot.on('like', async ({ subject, user }) => {
 
   const handle = chalk.underline(user.handle);
   if (!(subject instanceof Post)) {
-    console.log(chalk.cyan("[L] " + handle + ' liked the labeler!'));
+    console.log(chalk.cyan('[L] ' + handle + ' liked the labeler!'));
     return;
   }
 
   const label = availableLabels.get(subject.uri);
   if (!label) {
-    console.log(chalk.magenta("[L] " + handle + ' liked a random post! (thx)'));
+    console.log(chalk.magenta('[L] ' + handle + ' liked a random post! (thx)'));
     return;
   }
 
@@ -56,12 +54,19 @@ bot.on('like', async ({ subject, user }) => {
     let userLabels = server.db.prepare('SELECT * FROM labels WHERE uri = ?').all(user.did);
     console.log(chalk.red('[D] Deleting ' + handle + ' labels: ' + userLabels.map((label: any) => label.val)));
 
-    await server.createLabels({ uri: user.did }, { negate: [...allTags, 'clear'] });
-    
+    server.createLabels({ uri: user.did }, { negate: [...allTags, 'clear'] });
+
     server.db.prepare('DELETE FROM labels WHERE uri = ?').run(user.did);
     return;
   }
-  await user.labelAccount([label.slug]);
-  console.log(chalk.green('[N] Labeling ' + handle + ' with ' + label.name ));
+
+  let alreadyHasLabel = server.db.prepare('SELECT * FROM labels WHERE src = ? AND uri = ?').run(user.did, label.uri)
+  if (alreadyHasLabel.lastInsertRowid) {
+    console.log(chalk.yellow('[A] ' + handle + ' already has ' + label.name));
+    return;
+  }
+  
+  server.createLabel({ uri: user.did, val: label.slug });
+  console.log(chalk.green('[N] Labeling ' + handle + ' with ' + label.name));
 });
 
